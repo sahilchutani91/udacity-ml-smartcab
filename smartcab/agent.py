@@ -87,10 +87,19 @@ class LearningAgent(Agent):
 
         maxQ = None
         if state in self.Q.keys():
+
+            # get the max Qvalue
             k,v = max(self.Q[state].iteritems(), key=lambda s:s[1])
-            maxQ = k
+
+            # search through Q table for keys with max Qvalue
+            maxPairs = filter(lambda (x,y): y==v, self.Q[state].iteritems())
+
+            # randomly choose action with max Qvlaue
+            maxQ = random.choice(map(lambda (k,v): k, maxPairs))
+
         else:
             self.createQ(state)
+            maxQ = random.choice(self.valid_actions)
         return maxQ 
 
 
